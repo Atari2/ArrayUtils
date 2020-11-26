@@ -3,7 +3,7 @@
 A simple library for array of fixed size elements in C.
 
 * Documentation can be found at this webpage http://www.atarismwc.com/arrayutils/
-* A navigable PDF can also be downloaded from : http://www.atarismwc.com/arrayutilsdoc.pdf
+* A navigable PDF can also be downloaded from : http://www.atarismwc.com/arrayutilsdocs.pdf
 
 Minimal example usage:
 ```c
