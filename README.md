@@ -1,4 +1,4 @@
-## CStringUtils
+## ArrayUtils
 
 A simple library for array of fixed size elements in C.
 
