@@ -47,9 +47,9 @@ typedef enum ArrayUtilsTraceLevel {
 
 /**
  * @brief Adds a value of type to vector.
- * <br> Usage ex: ADD_VAL(int, 3, vector) -> will add a 3 to the tail end of the vector (assumes the vector is of type)
+ * <br> Usage ex: ADD_VAL(vector, 3) -> will add a 3 to the tail end of the vector (assumes the vector is of the correct type)
  */
-#define ADD_VAL(type, val, vector) {type ___insvalue___ = val; add(vector, &___insvalue___);}
+#define ADD_VAL(vector, val) {typeof(val) ___insvalue___ = val; add(vector, &___insvalue___);}
 
 /**
  * @brief Creates a new vector of size 0 and type
@@ -70,10 +70,10 @@ typedef enum ArrayUtilsTraceLevel {
 /**
  * @brief Fills an existing vector with val of type num times
  * <br> Functionally equal to fill()
- * <br> Usage ex: FILL(int, 10, vector, 5) -> Fills vector of 5 ints of value 10
+ * <br> Usage ex: FILL(vector, 10, 5) -> Fills vector of 5 ints of value 10
  * @see fill()
  */
-#define FILL(type, val, vector, num) {type ___fillvalue___ = val; fill(vector, &___fillvalue___, num);}
+#define FILL(vector, val, n) {typeof(val) ___fillvalue___ = val; fill(vector, &___fillvalue___, n);}
 
 /**
  * @brief ADT that defines the vector class, to access interals use appropriate functions
@@ -379,31 +379,31 @@ void free_all_arrayutils_structures();
 AllocatedArrays* expose_internal_arrays();
 
 /**
- * Sets resize factor to use when resizing arrays to make room for more, default is 2.
+ * @brief Sets resize factor to use when resizing arrays to make room for more, default is 2.
  * @param factor
  */
 void set_resize_factor(unsigned int factor);
 
 /**
- * Sets default size to use when allocating, default is 1.
+ * @brief Sets default size to use when allocating, default is 1.
  * @param size
  */
 void set_default_capacity(unsigned int size);
 
 /**
- * Returns currently used resize factor
+ * @brief Returns currently used resize factor
  * @return resize factor
  */
 unsigned int get_resize_factor();
 
 /**
- * Returns currently used default capacity
+ * @brief Returns currently used default capacity
  * @return default capacity
  */
 unsigned int get_default_capacity();
 
 /**
- * Converts an error code to the string representation of said error code
+ * @brief Converts an error code to the string representation of said error code
  * @param err -> ArrayUtilsError type
  * @return string repr of given error
  */

@@ -18,9 +18,9 @@ int main() {
     set_trace_lvl_arrayutils(Warn);
     override_signal_exception_arrayutils(custom_handler);
     Vector* v = VECTOR(int);
-    ADD_VAL(int, 1, v)
-    ADD_VAL(int, 2, v)
-    ADD_VAL(int, 3, v)
+    ADD_VAL(v, 1)
+    ADD_VAL(v, 2)
+    ADD_VAL(v, 3)
     print_vect(v, "[%d] ");
     reverse(v);
     printf("\n");
@@ -28,7 +28,6 @@ int main() {
     printf("\n");
     return 0;
 }
-
 ```
 Valgrind output of this little program:
 ```
