@@ -119,6 +119,18 @@ Vector* vector_fromsize(uint objsize, ulong capacity) {
     v->data = safe_alloc(objsize * capacity);
     return v;
 }
+
+Vector* vector_from_args_int(int n_of_elements, ...) {
+    va_list args;
+    va_start(args, n_of_elements);
+    Vector* v = vector_fromsize(sizeof(int), n_of_elements);
+    for (int i = 0; i < n_of_elements; i++) {
+        int arg = va_arg(args, int);
+        add(v, &arg);
+    }
+    return v;
+}
+
 void add(Vector* vect, void* obj) {
     if (vect->size == vect->capacity) {
         vect->data = safe_realloc(vect->data, vect->capacity * realloc_factor * vect->objsize);
@@ -209,7 +221,7 @@ void pop_noret(Vector* vect) {
 
 void delete_noret(Vector* vect, uint index) {
     ASSERT_MIN_SIZE_CAPACITY(vect, index, OutOfBoundsAccessError, "Out of bounds delete attempt")
-    memmove(vect->data + (vect->objsize * index), vect->data + (vect->objsize * (index + 1)), vect->objsize * (vect->size - index));
+    memmove(vect->data + (vect->objsize * index), vect->data + (vect->objsize * (index + 1)), vect->objsize * (vect->size - index - 1));
     vect->size--;
 }
 
@@ -217,9 +229,31 @@ void* delete(Vector* vect, uint index) {
     ASSERT_MIN_SIZE_CAPACITY(vect, index, OutOfBoundsAccessError, "Out of bounds delete attempt")
     void* cpy = malloc(vect->objsize);
     memcpy(cpy, vect->data + (vect->objsize * index), vect->objsize);
-    memmove(vect->data + (vect->objsize * index), vect->data + (vect->objsize * (index + 1)), vect->objsize * (vect->size - index));
+    memmove(vect->data + (vect->objsize * index), vect->data + (vect->objsize * (index + 1)), vect->objsize * (vect->size - index - 1));
     vect->size--;
     return cpy;
+}
+
+void delete_value(Vector* vect, void* obj) {
+    int n;
+    any_match(vect, obj, &n);
+    if (n == -1)
+        return;
+    delete_noret(vect, n);
+}
+
+int delete_n_values(Vector* vect, void* obj, int n) {
+    int occ = count_matches(vect, obj);
+    if (n > occ)
+        n = occ;
+    for (int i = 0; i < n; i++)
+        delete_value(vect, obj);
+    return n;
+}
+
+int delete_values(Vector* vect, void* obj) {
+    int n = count_matches(vect, obj);
+    return delete_n_values(vect, obj, n);
 }
 
 void fill(Vector* vect, void* val, uint nobj) {

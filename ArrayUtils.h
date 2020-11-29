@@ -117,6 +117,14 @@ Vector* vector_new(unsigned int objsize);
 Vector* vector_fromsize(unsigned int objsize, unsigned long capacity);
 
 /**
+ * @brief Creates a vector of ints (varargs version)
+ * @param n_of_elements
+ * @param ... the elements to insert in the vector
+ * @return pointer to created struct
+ */
+Vector* vector_from_args_int(int n_of_elements, ...);
+
+/**
  * @brief Returns the internal data buffer of given array struct
  * @param v -> vector
  * @return data buffer of vector
@@ -246,6 +254,30 @@ void* delete(Vector* vect, unsigned int index);
  * @param index -> index to remove from
  */
 void delete_noret(Vector* vect, unsigned int index);
+
+/**
+ * @brief Deletes first occurrence of item of value == obj
+ * @param vect -> vector
+ * @param obj -> obj to delete
+ */
+void delete_value(Vector* vect, void* obj);
+
+/**
+ * @brief Deletes n occurrences of item of value == obj from vector
+ * @param vect -> vector
+ * @param obj -> obj to delete
+ * @param n -> number of occurrences to delete
+ * @return number of deleted occurrences
+ */
+int delete_n_values(Vector* vect, void* obj, int n);
+
+/**
+ * @brief Deletes all occurrences of item of value == obj from vector
+ * @param vect -> vector
+ * @param obj -> obj to delete
+ * @return number of deleted occurrences
+ */
+int delete_values(Vector* vect, void* obj);
 
 /**
  * @brief Frees entire vector structure
